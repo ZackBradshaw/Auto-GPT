@@ -132,8 +132,8 @@ class ForgeAgent(Agent):
             # Extract the ability and parameters from the answer
             ability = answer["ability"]
             params = answer["parameters"]
-
             # Execute the ability
+
             ability_result = await self.abilities.run_ability(ability, task_id, **params)
 
         except json.JSONDecodeError as e:
