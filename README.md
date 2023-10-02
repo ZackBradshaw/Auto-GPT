@@ -1,4 +1,5 @@
 # Open-Sourcerer: The Code Sorcerer's Apprentice
+![code search demo](stable-diffusion-xl (33).jpg)
 
 Greetings, fellow developer! Welcome to the realm of the Open-Sourcerer, your trusty assistant in the magical world of open source projects. Open-Sourcerer is here to assist you in finding, integrating, and mastering the arcane arts of open source code.
 
