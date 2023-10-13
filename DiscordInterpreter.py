@@ -1,8 +1,10 @@
 import os
 import discord
 import interpreter
+import dotenv
 
-bot_token = "MTE1ODkyMzkxMDg1NTc5ODgwNA.G8dM5U.ZW1zsvr3XWgalQImgxHDLqskBX7xE4c9YSGleY"
+dotenv.load_dotenv(".env")
+bot_token = os.getenv("DISCORD_TOKEN")
 
 interpreter.local = True
 interpreter.system_message += """
@@ -22,18 +24,20 @@ interpreter.system_message += """
 """
 interpreter.auto_run = True
 
+
 def split_text(text, chunk_size=1500):
     #########################################################################
     return [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
 
 
-### discord initial
+# discord initial
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
 message_chunks = []
 send_image = False
+
 
 @client.event
 async def on_message(message):
