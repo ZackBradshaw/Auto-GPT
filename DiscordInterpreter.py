@@ -1,5 +1,8 @@
+# voice recording code adapted from sergmister/Discord-VC-Bot
+
 import os
 import discord
+from discord.ext import commands
 import interpreter
 
 bot_token = "MTE1ODkyMzkxMDg1NTc5ODgwNA.G8dM5U.ZW1zsvr3XWgalQImgxHDLqskBX7xE4c9YSGleY"
@@ -28,21 +31,68 @@ def split_text(text, chunk_size=1500):
 
 
 ### discord initial
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.message_content = True
-client = discord.Client(intents=intents)
+client = commands.Bot(command_prefix="$", intents=intents)
 
 message_chunks = []
 send_image = False
 
 @client.event
 async def on_message(message):
-    if message.author == client.user:
+    await client.process_commands(message)
+    if message.author == client.user or message.content[0]=='$':
         return
 
     data = interpreter.chat(message.content, return_messages=True)
     splitted_text = split_text(data[-1]['content'])
     for chunk in splitted_text:
         await message.channel.send(chunk)
+
+@client.command()
+async def join(ctx):
+    if ctx.author.voice:
+        channel = ctx.message.author.voice.channel
+        print('joining..')
+        await channel.connect()
+        print('joined.')
+    else:
+        print("not in a voice channel!")
+
+@client.command()
+async def leave(ctx):
+    if ctx.voice_client:
+        await ctx.voice_client.disconnect()
+    else:
+        print("not in a voice channel!")
+
+@client.command()
+async def listen(ctx):
+    if ctx.voice_client:
+        print('trying to listen..')
+        ctx.voice_client.start_recording(discord.sinks.WaveSink(), callback, ctx)
+        print('listening..')
+    else:
+        print("not in a voice channel!")
+
+async def callback(sink: discord.sinks, ctx):
+    print('in callback..')
+    for user_id, audio in sink.audio_data.items():
+        if user_id == ctx.author.id:
+            print('saving audio..')
+            audio: discord.sinks.core.AudioData = audio
+            print(user_id)
+            filename = "audio.wav"
+            with open(filename, "wb") as f:
+                f.write(audio.file.getvalue())
+            print('audio saved.')
+
+@client.command()
+async def stop(ctx):
+    ctx.voice_client.stop_recording()
+
+@client.event
+async def on_ready():
+    print(f"We have logged in as {client.user}")
 
 client.run(bot_token)
