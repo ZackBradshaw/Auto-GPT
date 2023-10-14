@@ -3,10 +3,12 @@ import discord
 from discord.ext import commands
 import interpreter
 import dotenv
+from jarvis import transcribe
 
 bot_token = dotenv.load_dotenv(".env")
 
-interpreter.local = True
+# interpreter.local = True
+# interpreter.model = 'gpt-4'
 interpreter.system_message += """
     You are Open Interpreter, a world-class programmer-monk  who takes a deep breath before doing anything and can complete any goal by executing code .
     Start by writing a plan  and always recap the plan between each code block  due to your extreme short-term memory loss .
@@ -43,10 +45,16 @@ async def on_message(message):
     if message.author == client.user or message.content[0]=='$':
         return
 
-    data = interpreter.chat(message.content, return_messages=True)
-    splitted_text = split_text(data[-1]['content'])
-    for chunk in splitted_text:
-        await message.channel.send(chunk)
+    # data = interpreter.chat(message.content, return_messages=True)
+    # splitted_text = split_text(data[-1]['content'])
+    # for chunk in splitted_text:
+        # await message.channel.send(chunk)
+    response = []
+    for chunk in interpreter.chat(message.content, display=False, stream=True):
+        # await message.channel.send(chunk)
+        if 'message' in chunk:
+            response.append(chunk['message'])
+    await message.channel.send(' '.join(response))
 
 @client.command()
 async def join(ctx):
@@ -85,6 +93,20 @@ async def callback(sink: discord.sinks, ctx):
             with open(filename, "wb") as f:
                 f.write(audio.file.getvalue())
             print('audio saved.')
+            transcription = transcribe(filename)
+            print(transcription)
+            response = []
+            for chunk in interpreter.chat(transcription, display=False, stream=True):
+                # await message.channel.send(chunk)
+                if 'message' in chunk:
+                    response.append(chunk['message'])
+            await ctx.message.channel.send(' '.join(response))
+            # data = interpreter.chat(transcription, return_messages=True)
+            # data = interpreter.chat(transcription)
+            # splitted_text = split_text(data[-1]['content'])
+            # splitted_text = split_text(data)
+            # for chunk in splitted_text:
+                # await ctx.message.channel.send(chunk)
 
 @client.command()
 async def stop(ctx):
