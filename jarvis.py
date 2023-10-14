@@ -10,7 +10,6 @@ import dotenv
 
 dotenv.load_dotenv(".env")
 
-interpreter.local = True
 # interpreter.model = "TheBloke/Mistral-7B-OpenOrca-GGUF"
 interpreter.auto_run = True
 model = whisper.load_model("base")
