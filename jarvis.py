@@ -1,10 +1,10 @@
+import interpreter
+import time
+import gradio as gr
 from pydub import AudioSegment
 import io
 from elevenlabs import generate, play, set_api_key
 import whisper
-import gradio as gr
-import time
-import interpreter
 
 interpreter.local = True
 interpreter.model = "TheBloke/Mistral-7B-OpenOrca-GGUF"
@@ -30,7 +30,7 @@ def transcribe(audio):
     return result.text
 
 
-set_api_key(eleven_labs_api_key)
+set_api_key("ELEVEN_LABS_API_KEY")
 
 
 def get_audio_length(audio_bytes):

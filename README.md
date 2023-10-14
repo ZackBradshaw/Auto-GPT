@@ -1,3 +1,9 @@
+---
+title: open-interpreter
+app_file: jarvis.py
+sdk: gradio
+sdk_version: 3.33.1
+---
 # Open-Sourcerer: The Code Sorcerer's Apprentice
 ![Sourcerer](Open-Sourcerer.jpg)
 

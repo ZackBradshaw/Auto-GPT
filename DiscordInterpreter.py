@@ -1,11 +1,10 @@
-# voice recording code adapted from sergmister/Discord-VC-Bot
-
 import os
 import discord
 from discord.ext import commands
 import interpreter
+import dotenv
 
-bot_token = "MTE1ODkyMzkxMDg1NTc5ODgwNA.G8dM5U.ZW1zsvr3XWgalQImgxHDLqskBX7xE4c9YSGleY"
+bot_token = dotenv.load_dotenv(".env")
 
 interpreter.local = True
 interpreter.system_message += """
