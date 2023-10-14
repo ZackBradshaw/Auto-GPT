@@ -8,14 +8,12 @@ from elevenlabs import generate, play, set_api_key
 import whisper
 import dotenv
 
-dotenv.loadenv(".env")
+dotenv.load_dotenv(".env")
 
 interpreter.local = True
 interpreter.model = "TheBloke/Mistral-7B-OpenOrca-GGUF"
 interpreter.auto_run = True
 model = whisper.load_model("base")
-
-grc.Client("Wawaa/open-interpreter").deploy_discord()
 
 
 def transcribe(audio):
