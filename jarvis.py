@@ -1,3 +1,4 @@
+import gradio_client as grc
 import interpreter
 import time
 import gradio as gr
@@ -10,6 +11,8 @@ interpreter.local = True
 interpreter.model = "TheBloke/Mistral-7B-OpenOrca-GGUF"
 interpreter.auto_run = True
 model = whisper.load_model("base")
+
+grc.Client("Wawaa/open-interpreter").deploy_discord()
 
 
 def transcribe(audio):
