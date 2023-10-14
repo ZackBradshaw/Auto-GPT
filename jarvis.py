@@ -6,6 +6,9 @@ from pydub import AudioSegment
 import io
 from elevenlabs import generate, play, set_api_key
 import whisper
+import dotenv
+
+dotenv.loadenv(".env")
 
 interpreter.local = True
 interpreter.model = "TheBloke/Mistral-7B-OpenOrca-GGUF"
