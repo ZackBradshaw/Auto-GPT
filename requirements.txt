@@ -1,5 +1,4 @@
 openai-whisper
-
 discord
 open-interpreter
 elevenlabs

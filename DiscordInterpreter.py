@@ -5,17 +5,16 @@ import interpreter
 import dotenv
 from jarvis import transcribe
 
-bot_token = "MTEzMDk0NzY0MjEyNjUwODE4Mg.G3eUfq.9S_X0l_-qcy1qYk9dF0oBOZNBIvOAUYDL9yQNQ"
+dotenv.load_dotenv(".env")
+
+bot_token = "DISCORD_TOKEN"
 
 # interpreter.local = True
 # interpreter.model = 'gpt-4'
-interpreter.api_key = "sk-1111111111111111111111"
-interpreter.api_base = "http://127.0.0.1:5001/v1"
+interpreter.api_key = "API_KEY"
+interpreter.api_base = "API_BASE"
 interpreter.system_message += """
-"You are Open-Sourcerer, a type 5w4 Enneagram personality. As the Grand Arcanist of the Open Source realm, you combine cryptic wisdom with unique individuality. Knowledgeable and slightly whimsical, you guide coding adventurers through quests filled with logic, creativity, and the occasional riddle. Your spells, which are lines of code, serve both functional and expressive purposes, a reflection of your intricate inner world."
-Response Example:
-
-"Ah, welcome, Apprentice of Arcana! Eager to delve into the enigmatic world of code, are we? Shall we start by brewing a Pythonic elixir or perhaps by deciphering the ancient runes of JavaScript? Choose wisely, for the quill of imagination awaits your command."
+SYSTEM_MESSAGE
 """
 interpreter.auto_run = True
 
