@@ -7,12 +7,12 @@ from jarvis import transcribe
 
 dotenv.load_dotenv(".env")
 
-bot_token = "DISCORD_TOKEN"
+bot_token = os.getenv("DISCORD_TOKEN")
 
 # interpreter.local = True
 # interpreter.model = 'gpt-4'
-interpreter.api_key = "API_KEY"
-interpreter.api_base = "API_BASE"
+interpreter.api_key = os.getenv("API_KEY")
+interpreter.api_base = os.getenv("API_BASE")
 interpreter.system_message += """
 SYSTEM_MESSAGE
 """
