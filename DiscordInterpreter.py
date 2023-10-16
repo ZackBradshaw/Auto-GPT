@@ -9,20 +9,13 @@ dotenv.load_dotenv(".env")
 
 bot_token = os.getenv("DISCORD_TOKEN")
 
-# interpreter.local = True
-# interpreter.model = 'gpt-4'
 interpreter.api_key = os.getenv("API_KEY")
 interpreter.api_base = os.getenv("API_BASE")
-interpreter.system_message += """
-SYSTEM_MESSAGE
-"""
-interpreter.auto_run = True
-
+# interpreter.auto_run = True
 
 def split_text(text, chunk_size=1500):
     #########################################################################
     return [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
-
 
 # discord initial
 intents = discord.Intents.all()
@@ -32,17 +25,12 @@ client = commands.Bot(command_prefix="$", intents=intents)
 message_chunks = []
 send_image = False
 
-
 @client.event
 async def on_message(message):
     await client.process_commands(message)
     if message.author == client.user or message.content[0] == '$':
         return
 
-    # data = interpreter.chat(message.content, return_messages=True)
-    # splitted_text = split_text(data[-1]['content'])
-    # for chunk in splitted_text:
-        # await message.channel.send(chunk)
     response = []
     for chunk in interpreter.chat(message.content, display=False, stream=True):
         # await message.channel.send(chunk)
@@ -99,12 +87,6 @@ async def callback(sink: discord.sinks, ctx):
                 if 'message' in chunk:
                     response.append(chunk['message'])
             await ctx.message.channel.send(' '.join(response))
-            # data = interpreter.chat(transcription, return_messages=True)
-            # data = interpreter.chat(transcription)
-            # splitted_text = split_text(data[-1]['content'])
-            # splitted_text = split_text(data)
-            # for chunk in splitted_text:
-            # await ctx.message.channel.send(chunk)
 
 
 @client.command()
