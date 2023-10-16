@@ -28,15 +28,21 @@ send_image = False
 @client.event
 async def on_message(message):
     await client.process_commands(message)
-    if message.author == client.user or message.content[0] == '$':
+    if ('<@1158923910855798804>' not in message.content) or (message.author == client.user or message.content[0] == '$'):
         return
-
     response = []
-    for chunk in interpreter.chat(message.content, display=False, stream=True):
+    for chunk in interpreter.chat(message.content, display=False, stream=False):
         # await message.channel.send(chunk)
         if 'message' in chunk:
             response.append(chunk['message'])
-    await message.channel.send(' '.join(response))
+    last_response = response[-1]
+
+    max_message_length = 2000  # Discord's max message length is 2000 characters
+    # Splitting the message into chunks of 2000 characters
+    response_chunks = [last_response[i:i + max_message_length] for i in range(0, len(last_response), max_message_length)]
+    # Sending each chunk as a separate message
+    for chunk in response_chunks:
+        await message.channel.send(chunk)
 
 
 @client.command()
