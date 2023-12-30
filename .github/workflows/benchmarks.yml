@@ -47,6 +47,9 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
 
+      - name: Install pytest
+        run: pip install pytest
+
       - name: Run pytest with coverage
         run: |
           rm -rf tests/vcr_cassettes
