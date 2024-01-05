@@ -11,7 +11,7 @@
     },
     "tests": {
         "pytest": "pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges_get_field",
-        "pytest":"pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges",
+        "pytest":"pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges","pytest":"pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges",
          "pytest":"pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges",
         	"pytest":"pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges",
         "TestWriteFile": {
