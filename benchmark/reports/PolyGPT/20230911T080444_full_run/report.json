@@ -5,6 +5,9 @@
     "completion_time": "2023-09-11T08:07:30+00:00",
     "benchmark_start_time": "2023-09-11T08:04:44+00:00",
     "metrics": {
+        "cost": 0,
+        "attempted": true,
+        "success": true,
         "run_time": "166.2 seconds",
         "highest_difficulty": "No successful tests",
         "total_cost": 0
