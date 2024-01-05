@@ -14,6 +14,7 @@
         "pytest":"pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges","pytest":"pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges",
          "pytest":"pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges",
         	"pytest":"pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges",
+        "pytest": "pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges"
         "TestWriteFile": {
             "data_path": "agbenchmark/challenges/abilities/write_file/data.json",
             "is_regression": false,
