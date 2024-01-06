@@ -1,4 +1,4 @@
-name: GitHub Actions
+name: Python application workflow
 
 on:
   push:
@@ -43,4 +43,5 @@ jobs:
       - name: Execute tests
         run: |
           python -m pip install pytest
-          pytest
+            - name: Run pytest
+    run: pytest
