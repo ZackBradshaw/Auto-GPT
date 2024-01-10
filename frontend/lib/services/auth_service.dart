@@ -35,7 +35,7 @@ class AuthService {
       return await _auth.signInWithPopup(provider);
     } catch (e) {
       print("Error during GitHub Sign-In: $e");
-      return null;
+      throw e;
     }
   }
 
@@ -45,6 +45,18 @@ class AuthService {
   }
 
   // Get current user
+
+  // Instructions for configuring GitHub account and generating access token
+  /**
+   * To configure the GitHub account for authentication, follow these steps:
+   * 
+   * 1. Go to https://github.com and sign in (or create an account if you don't have one).
+   * 2. Navigate to your account settings and then to Developer settings, OAuth Apps.
+   * 3. Register a new OAuth application and provide the necessary details.
+   * 4. After registering the OAuth application, you will receive a Client ID and Client Secret.
+   * 5. Use the Client ID and Client Secret to obtain an access token for authentication in your application.
+   * 6. Ensure that the access token is valid and has the required permissions.
+   */
   User? getCurrentUser() {
     return _auth.currentUser;
   }
