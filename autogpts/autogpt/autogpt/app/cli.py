@@ -62,7 +62,7 @@ def cli(ctx: click.Context):
     "--allow-downloads",
     is_flag=True,
     help="Dangerous: Allows AutoGPT to download files natively.",
-)
+
 @click.option(
     "--skip-news",
     is_flag=True,
