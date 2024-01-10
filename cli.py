@@ -7,12 +7,13 @@ To ensure efficiency, add the imports to the functions so only what is needed is
 try:
     import click
     import github
-except ImportError:
+except ImportError as e:
     import os
 
     os.system("pip3 install click")
     os.system("pip3 install PyGithub")
     import click
+    click.echo(f"Error encountered during import: {e}")
 
 
 @click.group()
@@ -605,6 +606,7 @@ def enter(agent_name, branch):
     from datetime import datetime
 
     from github import Github
+    import subprocess
 
     # Check if the agent_name directory exists in the autogpts directory
     agent_dir = f"./autogpts/{agent_name}"
@@ -803,6 +805,7 @@ Hey there amazing builders! We're thrilled to have you join this exciting journe
                     f"🚀 {agent_name} has entered the arena! Please edit your PR description at the following URL: {pr.html_url}",
                     fg="green",
                 )
+            )
             )
         else:
             click.echo(
