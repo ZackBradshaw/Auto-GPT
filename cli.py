@@ -87,7 +87,7 @@ except subprocess.CalledProcessError:
             '  git config --global user.email "Your GitHub Email"', fg="red"
         )
     )
-        install_error = True
+    install_error = True
     print_access_token_instructions = False
     # Check for the existence of the .github_access_token file
     if os.path.exists(".github_access_token"):
