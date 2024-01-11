@@ -1,4 +1,4 @@
-import click
+from cli import click
 
 from autogpt.core.agent import AgentSettings, SimpleAgent
 from autogpt.core.runner.client_lib.logging import (
