@@ -5,8 +5,21 @@ If you want to contribute, please use only libraries that come as part of Python
 To ensure efficiency, add the imports to the functions so only what is needed is imported.
 """
 try:
-    from click import click
-    from github import Github
+import click
+import Github
+import json
+import os
+import subprocess
+import datetime
+import os
+from github import Github, GithubException
+import subprocess
+import datetime
+import json
+import json
+from github import Github
+import json
+import json
 except ImportError:
     from datetime import datetime
     import json
@@ -23,6 +36,13 @@ except ImportError:
 
     import click
 
+
+import click
+import os
+from github import Github, GithubException
+import subprocess
+import datetime
+import json
 
 @click.group()
 def cli():
@@ -126,7 +146,7 @@ try:
                         )
                 else:
                     print_access_token_instructions = False
-                    install_error = True
+                    
                     click.echo(
                         click.style(
                             "❌ Failed to validate GitHub access token. Please ensure it is correct.",
@@ -134,7 +154,7 @@ try:
                         )
                     )
             else:
-                install_error = True
+        
                 click.echo(
                     click.style(
                         "❌ GitHub access token file is empty. Please follow the instructions below to set up your GitHub access token.",
@@ -153,7 +173,7 @@ try:
         # Instructions to set up GitHub access token
         click.echo(
             click.style(
-                "❌ To configure your GitHub access token, follow these steps:", fg="red"
+                "🔑 To configure your GitHub access token, follow these steps:", fg="red"
             )
         )
         click.echo(
