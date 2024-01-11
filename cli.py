@@ -6,14 +6,26 @@ To ensure efficiency, add the imports to the functions so only what is needed is
 """
 try:
 import click
-import Github
+import github
 import json
+from datetime import datetime
 import os
-import subprocess
 import datetime
 import os
 from github import Github, GithubException
+import os
 import subprocess
+
+try:
+    import github
+    import json
+    import os
+    import subprocess
+except ImportError:
+    from datetime import datetime
+    import json
+    import os
+    import subprocess
 import datetime
 import json
 import json
@@ -220,7 +232,7 @@ def agent():
 def create(agent_name):
     """Create's a new agent with the agent name provided"""
     import os
-    import re
+    import os
     import shutil
 
     if not re.match("^[a-zA-Z0-9_-]*$", agent_name):
@@ -613,7 +625,7 @@ def enter(agent_name, branch):
     # Check if the agent_name directory exists in the autogpts directory
     agent_dir = f"./autogpts/{agent_name}"
     if not os.path.exists(agent_dir):
-        click.echo(
+        from datetime import datetime(
             click.style(
                 f"❌ The directory for agent '{agent_name}' does not exist in the autogpts directory.",
                 fg="red",
