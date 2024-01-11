@@ -43,70 +43,50 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
         )
     )
 
-    script_dir = os.path.dirname(os.path.realpath(__file__))
-    setup_script = os.path.join(script_dir, "setup.sh")
-    install_error = False
-    if os.path.exists(setup_script):
-        click.echo(click.style("🚀 Setup initiated...\n", fg="green"))
-        try:
-            subprocess.check_call([setup_script], cwd=script_dir)
-        except subprocess.CalledProcessError:
-            click.echo(
-                click.style("❌ There was an issue with the installation.", fg="red")
+try:
+    # Check if GitHub user name is configured
+    user_name = (
+        subprocess.check_output(["git", "config", "user.name"])
+        .decode("utf-8")
+        .strip()
+    )
+    user_email = (
+        subprocess.check_output(["git", "config", "user.email"])
+        .decode("utf-8")
+        .strip()
+    )
+
+    if user_name and user_email:
+        click.echo(
+            click.style(
+                f"✅ GitHub account is configured with username: {user_name} and email: {user_email}",
+                fg="green",
             )
-            install_error = True
+        )
     else:
-        click.echo(
-            click.style(
-                "❌ Error: setup.sh does not exist in the current directory.", fg="red"
-            )
-        )
-        install_error = True
-
-    try:
-        # Check if GitHub user name is configured
-        user_name = (
-            subprocess.check_output(["git", "config", "user.name"])
-            .decode("utf-8")
-            .strip()
-        )
-        user_email = (
-            subprocess.check_output(["git", "config", "user.email"])
-            .decode("utf-8")
-            .strip()
+        raise subprocess.CalledProcessError(
+            returncode=1, cmd="git config user.name or user.email"
         )
 
-        if user_name and user_email:
-            click.echo(
-                click.style(
-                    f"✅ GitHub account is configured with username: {user_name} and email: {user_email}",
-                    fg="green",
-                )
-            )
-        else:
-            raise subprocess.CalledProcessError(
-                returncode=1, cmd="git config user.name or user.email"
-            )
-
-    except subprocess.CalledProcessError:
-        # If the GitHub account is not configured, print instructions on how to set it up
-        click.echo(click.style("❌ GitHub account is not configured.", fg="red"))
-        click.echo(
-            click.style(
-                "To configure your GitHub account, use the following commands:",
-                fg="red",
-            )
+except subprocess.CalledProcessError:
+    # If the GitHub account is not configured, print instructions on how to set it up
+    click.echo(click.style("❌ GitHub account is not configured.", fg="red"))
+    click.echo(
+        click.style(
+            "To configure your GitHub account, use the following commands:",
+            fg="red",
         )
-        click.echo(
-            click.style(
-                '  git config --global user.name "Your GitHub Username"', fg="red"
-            )
+    )
+    click.echo(
+        click.style(
+            '  git config --global user.name "Your GitHub Username"', fg="red"
         )
-        click.echo(
-            click.style(
-                '  git config --global user.email "Your GitHub Email"', fg="red"
-            )
+    )
+    click.echo(
+        click.style(
+            '  git config --global user.email "Your GitHub Email"', fg="red"
         )
+    )
         install_error = True
     print_access_token_instructions = False
     # Check for the existence of the .github_access_token file
