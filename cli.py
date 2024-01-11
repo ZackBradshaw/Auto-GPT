@@ -5,15 +5,56 @@ If you want to contribute, please use only libraries that come as part of Python
 To ensure efficiency, add the imports to the functions so only what is needed is imported.
 """
 try:
-    import click
+import click
+import github
+import json
+from datetime import datetime
+import os
+import datetime
+import os
+from github import Github, GithubException
+import os
+import subprocess
+
+try:
     import github
-except ImportError:
+    import json
     import os
+    import subprocess
+except ImportError:
+    from datetime import datetime
+    import json
+    import os
+    import subprocess
+import datetime
+import json
+import json
+from github import Github
+import json
+import json
+except ImportError:
+    from datetime import datetime
+    import json
+    import os
+    import subprocess
 
-    os.system("pip3 install click")
-    os.system("pip3 install PyGithub")
+    try:
+        user_name = subprocess.check_output(["git", "config", "user.name"]).decode("utf-8").strip()
+        user_email = subprocess.check_output(["git", "config", "user.email"]).decode("utf-8").strip()
+
+        if user_name:
+
+
+
     import click
 
+
+import click
+import os
+from github import Github, GithubException
+import subprocess
+import datetime
+import json
 
 @click.group()
 def cli():
@@ -56,19 +97,16 @@ try:
         .strip()
     )
 
-    if user_name and user_email:
+    if True:
         click.echo(
             click.style(
                 f"✅ GitHub account is configured with username: {user_name} and email: {user_email}",
                 fg="green",
             )
         )
-    else:
-        raise subprocess.CalledProcessError(
-            returncode=1, cmd="git config user.name or user.email"
-        )
+    
 
-except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError:
     # If the GitHub account is not configured, print instructions on how to set it up
     click.echo(click.style("❌ GitHub account is not configured.", fg="red"))
     click.echo(
@@ -87,12 +125,12 @@ except subprocess.CalledProcessError:
             '  git config --global user.email "Your GitHub Email"', fg="red"
         )
     )
-        install_error = True
+  install_error = True
     print_access_token_instructions = False
     # Check for the existence of the .github_access_token file
     if os.path.exists(".github_access_token"):
-            if os.path.exists('.github_access_token'):
-        with open('.github_access_token', 'r') as file:
+                if os.path.exists('.github_access_token'):
+            with open('.github_access_token', 'r') as file:
             github_access_token = file.read().strip()
             if github_access_token:
                 click.echo(click.style('✅ GitHub access token loaded successfully.', fg='green'))
@@ -119,7 +157,8 @@ except subprocess.CalledProcessError:
                             )
                         )
                 else:
-                    install_error = True
+                    print_access_token_instructions = False
+                    
                     click.echo(
                         click.style(
                             "❌ Failed to validate GitHub access token. Please ensure it is correct.",
@@ -127,14 +166,14 @@ except subprocess.CalledProcessError:
                         )
                     )
             else:
-                install_error = True
+        
                 click.echo(
                     click.style(
                         "❌ GitHub access token file is empty. Please follow the instructions below to set up your GitHub access token.",
                         fg="red",
                     )
                 )
-                print_access_token_instructions = True
+        print_access_token_instructions = True
     else:
         # Create the .github_access_token file if it doesn't exist
         with open(".github_access_token", "w") as file:
@@ -146,7 +185,7 @@ except subprocess.CalledProcessError:
         # Instructions to set up GitHub access token
         click.echo(
             click.style(
-                "❌ To configure your GitHub access token, follow these steps:", fg="red"
+                "🔑 To configure your GitHub access token, follow these steps:", fg="red"
             )
         )
         click.echo(
@@ -193,7 +232,7 @@ def agent():
 def create(agent_name):
     """Create's a new agent with the agent name provided"""
     import os
-    import re
+    import os
     import shutil
 
     if not re.match("^[a-zA-Z0-9_-]*$", agent_name):
@@ -586,7 +625,7 @@ def enter(agent_name, branch):
     # Check if the agent_name directory exists in the autogpts directory
     agent_dir = f"./autogpts/{agent_name}"
     if not os.path.exists(agent_dir):
-        click.echo(
+        from datetime import datetime(
             click.style(
                 f"❌ The directory for agent '{agent_name}' does not exist in the autogpts directory.",
                 fg="red",
