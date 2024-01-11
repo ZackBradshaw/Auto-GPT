@@ -5,13 +5,13 @@ If you want to contribute, please use only libraries that come as part of Python
 To ensure efficiency, add the imports to the functions so only what is needed is imported.
 """
 try:
-    from click import click
-    from github import Github
+    import click
+    import github
 except ImportError:
     import os
 
-    os.system("pip3 install click")
-    os.system("pip3 install PyGithub")
+
+
     import click
 
 
