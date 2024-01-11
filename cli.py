@@ -91,19 +91,16 @@ except subprocess.CalledProcessError:
     print_access_token_instructions = False
     # Check for the existence of the .github_access_token file
     if os.path.exists(".github_access_token"):
-        with open(".github_access_token", "r") as file:
+            if os.path.exists('.github_access_token'):
+        with open('.github_access_token', 'r') as file:
             github_access_token = file.read().strip()
             if github_access_token:
-                click.echo(
-                    click.style(
-                        "✅ GitHub access token loaded successfully.", fg="green"
-                    )
-                )
+                click.echo(click.style('✅ GitHub access token loaded successfully.', fg='green'))
+                install_error = False
                 # Check if the token has the required permissions
                 import requests
-
-                headers = {"Authorization": f"token {github_access_token}"}
-                response = requests.get("https://api.github.com/user", headers=headers)
+                headers = {'Authorization': f'token {github_access_token}'}
+                response = requests.get('https://api.github.com/user', headers=headers)
                 if response.status_code == 200:
                     scopes = response.headers.get("X-OAuth-Scopes")
                     if "public_repo" in scopes or "repo" in scopes:
