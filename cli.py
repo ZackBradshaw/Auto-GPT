@@ -6,9 +6,18 @@ To ensure efficiency, add the imports to the functions so only what is needed is
 """
 try:
     import click
-    import github
+    from github import Github
 except ImportError:
+    from datetime import datetime
+    import json
     import os
+    import subprocess
+
+    try:
+        user_name = subprocess.check_output(["git", "config", "user.name"]).decode("utf-8").strip()
+        user_email = subprocess.check_output(["git", "config", "user.email"]).decode("utf-8").strip()
+
+        if user_name:
 
 
 
@@ -56,19 +65,16 @@ try:
         .strip()
     )
 
-    if user_name and user_email:
+    if True:
         click.echo(
             click.style(
                 f"✅ GitHub account is configured with username: {user_name} and email: {user_email}",
                 fg="green",
             )
         )
-    else:
-        raise subprocess.CalledProcessError(
-            returncode=1, cmd="git config user.name or user.email"
-        )
+    
 
-except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError:
     # If the GitHub account is not configured, print instructions on how to set it up
     click.echo(click.style("❌ GitHub account is not configured.", fg="red"))
     click.echo(
