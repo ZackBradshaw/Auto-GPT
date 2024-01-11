@@ -6,7 +6,7 @@ To ensure efficiency, add the imports to the functions so only what is needed is
 """
 try:
     from click import click
-    import github
+    from github import Github
 except ImportError:
     import os
 
