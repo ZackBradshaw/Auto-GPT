@@ -87,12 +87,12 @@ except subprocess.CalledProcessError:
             '  git config --global user.email "Your GitHub Email"', fg="red"
         )
     )
-        install_error = True
+  install_error = True
     print_access_token_instructions = False
     # Check for the existence of the .github_access_token file
     if os.path.exists(".github_access_token"):
-            if os.path.exists('.github_access_token'):
-        with open('.github_access_token', 'r') as file:
+                if os.path.exists('.github_access_token'):
+            with open('.github_access_token', 'r') as file:
             github_access_token = file.read().strip()
             if github_access_token:
                 click.echo(click.style('✅ GitHub access token loaded successfully.', fg='green'))
@@ -119,6 +119,7 @@ except subprocess.CalledProcessError:
                             )
                         )
                 else:
+                    print_access_token_instructions = False
                     install_error = True
                     click.echo(
                         click.style(
@@ -134,7 +135,7 @@ except subprocess.CalledProcessError:
                         fg="red",
                     )
                 )
-                print_access_token_instructions = True
+        print_access_token_instructions = True
     else:
         # Create the .github_access_token file if it doesn't exist
         with open(".github_access_token", "w") as file:
