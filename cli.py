@@ -8,8 +8,18 @@ try:
     import click
     import github
 except ImportError:
-    import os
+    os.system("pip3 install click")
+    os.system("pip3 install PyGithub")
+import os
+import subprocess
+import requests
+import json
+from datetime import datetime
 
+try:
+    import click
+    import github
+except ImportError:
     os.system("pip3 install click")
     os.system("pip3 install PyGithub")
     import click
@@ -798,11 +808,10 @@ Hey there amazing builders! We're thrilled to have you join this exciting journe
                 head=head,
                 base=branch_to_use,
             )
-            click.echo(
-                click.style(
-                    f"🚀 {agent_name} has entered the arena! Please edit your PR description at the following URL: {pr.html_url}",
-                    fg="green",
-                )
+click.echo(click.style(
+                f"🚀 {agent_name} has entered the arena! Please edit your PR description at the following URL: {{pr.html_url}}",
+                fg="green",
+            ))
             )
         else:
             click.echo(
