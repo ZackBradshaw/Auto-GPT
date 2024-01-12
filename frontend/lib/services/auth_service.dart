@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -31,7 +33,9 @@ class AuthService {
 // Sign in with GitHub using redirect
   Future<UserCredential?> signInWithGitHub() async {
     try {
-      final GithubAuthProvider provider = GithubAuthProvider();
+      import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_auth/github_auth.dart';
+final GithubAuthProvider provider = GithubAuthProvider();
       return await _auth.signInWithPopup(provider);
     } catch (e) {
       print("Error during GitHub Sign-In: $e");
