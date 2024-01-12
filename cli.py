@@ -121,8 +121,11 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
     print_access_token_instructions = False
     # Check for the existence of the .github_access_token file
     if os.path.exists(".github_access_token"):
+        click.echo(click.style("✅ GitHub access token file has been found.", fg="green"))
         with open(".github_access_token", "r") as file:
             github_access_token = file.read().strip()
+        if not github_access_token:
+            click.echo(click.style("❌ GitHub access token file is empty. Please follow the instructions below to set up your GitHub access token.", fg="red"))
             if github_access_token:
                 click.echo(
                     click.style(
@@ -167,16 +170,18 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
                         fg="red",
                     )
                 )
-                print_access_token_instructions = True
-    else:
-        # Create the .github_access_token file if it doesn't exist
-        with open(".github_access_token", "w") as file:
-            file.write("")
-        install_error = True
-        print_access_token_instructions = True
-
-    if print_access_token_instructions:
-        # Instructions to set up GitHub access token
+                new_instructions = [
+            "❌ To configure your GitHub access token, follow these steps:",
+            "\t1. Ensure you are logged into your GitHub account", 
+            "\t2. Navigate to https://github.com/settings/tokens", 
+            "\t3. Click on 'Generate new token'.", 
+            "\t4. Click on 'Generate new token (classic)'.", 
+            "\t5. Fill out the form to generate a new token. Ensure you select the 'repo' scope.", 
+            "\t6. Open the '.github_access_token' file in the same directory as this script and paste the token into this file.", 
+            "\t7. Save the file and run the setup command again." 
+        ]
+        click.echo(click.style("
+".join(new_instructions), fg="red")
         click.echo(
             click.style(
                 "❌ To configure your GitHub access token, follow these steps:", fg="red"
@@ -288,7 +293,7 @@ def start(agent_name, no_setup):
         subprocess.Popen(["./run_benchmark", "serve"], cwd=agent_dir)
         click.echo(f"Benchmark Server starting please wait...")
         subprocess.Popen(["./run"], cwd=agent_dir)
-        click.echo(f"Agent '{agent_name}' starting please wait...")
+    click.echo(f"Agent '{agent_name}' starting please wait...")
     elif not os.path.exists(agent_dir):
         click.echo(
             click.style(
@@ -757,15 +762,46 @@ def enter(agent_name, branch):
         )
 
         # Push the commit
+        try:
         subprocess.check_call(["git", "push", "origin", arena_submission_branch])
+    except subprocess.CalledProcessError:
+        click.echo(click.style(f"❌ Failed to push commit to the repository. Please check your GitHub access token and try again.", fg="red"))
 
         # Create a PR into the parent repository
         g = Github(github_access_token)
         repo_name = github_repo_url.replace("https://github.com/", '')
         repo = g.get_repo(repo_name)
+            parent_repo = repo.parent
+        try:
+            subprocess.check_call(["git", "push", "origin", arena_submission_branch])
+        except subprocess.CalledProcessError:
+            click.echo(click.style(f"❌ Failed to push the commit for arena submission to the remote repository.", fg="red"))
+            return
+
+        try:
+            g = Github(github_access_token)
+            repo_name = github_repo_url.replace("https://github.com/", '')
+            repo = g.get_repo(repo_name)
+            parent_repo = repo.parent
+        except github.BadCredentialsException as e:
+            click.echo(click.style(f"❌ Failed to authenticate with GitHub using the access token: {e}", fg="red"))
+            return
+
+    try:
+        g = Github(github_access_token)
+        repo_name = github_repo_url.replace("https://github.com/", '')
+        repo = g.get_repo(repo_name)
         parent_repo = repo.parent
-        if parent_repo:
-            pr_message = f"""
+    except Exception as e:
+        click.echo(click.style(f"❌ An error occurred while accessing the GitHub repository: {e}", fg="red"))
+    try:
+        g = Github(github_access_token)
+        repo_name = github_repo_url.replace("https://github.com/", '')
+        repo = g.get_repo(repo_name)
+        parent_repo = repo.parent
+    except Exception as e:
+        click.echo(click.style(f"❌ An error occurred while accessing the GitHub repository: {e}", fg="red"))
+
 ### 🌟 Welcome to the AutoGPT Arena Hacks Hackathon! 🌟
 
 Hey there amazing builders! We're thrilled to have you join this exciting journey. Before you dive deep into building, we'd love to know more about you and the awesome project you are envisioning. Fill out the template below to kickstart your hackathon journey. May the best agent win! 🏆
@@ -826,6 +862,7 @@ click.echo(click.style(
         subprocess.check_call(["git", "checkout", branch_to_use])
 
     except Exception as e:
+        click.echo(click.style(f"❌ An error occurred: {e}", fg="red"))
         click.echo(click.style(f"❌ An error occurred: {e}", fg="red"))
         # Switch back to the master branch
         subprocess.check_call(["git", "checkout", branch_to_use])
