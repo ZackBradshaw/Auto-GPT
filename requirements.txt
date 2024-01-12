@@ -1,0 +1,10 @@
+def create_requirements_file():
+    dependencies = [
+        "pytest",
+        # Add other dependencies here
+    ]
+    
+    with open("requirements.txt", "w") as file:
+        file.write("\n".join(dependencies))
+
+create_requirements_file()
