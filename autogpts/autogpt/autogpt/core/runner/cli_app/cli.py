@@ -12,7 +12,8 @@ from autogpt.core.runner.client_lib.utils import coroutine, handle_exceptions
 
 
 @click.group()
-def autogpt():
+def autogpt(
+):
     """Temporary command group for v2 commands."""
     pass
 
