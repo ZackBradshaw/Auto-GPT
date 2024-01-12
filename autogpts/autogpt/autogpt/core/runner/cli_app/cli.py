@@ -7,7 +7,6 @@ from autogpt.core.runner.cli_app.main import run_auto_gpt
 from autogpt.core.runner.client_lib.shared_click_commands import (
     DEFAULT_SETTINGS_FILE,
     make_settings,
-)
 from autogpt.core.runner.client_lib.utils import coroutine, handle_exceptions
 
 
