@@ -2,6 +2,9 @@
 ARG BUILD_TYPE=dev
 
 # Use an official Python base image from the Docker Hub
+
+# Install pytest package
+RUN pip install pytest
 FROM python:3.10-slim AS autogpt-base
 
 # Install browsers
@@ -50,4 +53,7 @@ ONBUILD COPY README.md ./README.md
 ONBUILD RUN mkdir ./data
 
 FROM autogpt-${BUILD_TYPE} AS autogpt
+
+# Install pytest package
+RUN pip install pytest
 RUN poetry install --only-root
