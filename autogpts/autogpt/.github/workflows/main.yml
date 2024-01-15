@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: |
+          # Reference the existing Dockerfile for the package installation command
+          # Replace <PACKAGE_INSTALL_COMMAND> with the actual command from the Dockerfile
+          <PACKAGE_INSTALL_COMMAND>
+
+      - name: Run pytest
+        run: pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges
