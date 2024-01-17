@@ -1,6 +1,14 @@
+import pytest
+
+@pytest.fixture
+def setup():
+    # Add code to install necessary dependencies
+    pass
+
 from agbenchmark.utils.dependencies.graphs import get_roots
 
 
+@pytest.mark.usefixtures("setup")
 def test_get_roots():
     graph = {
         "nodes": [
@@ -22,6 +30,7 @@ def test_get_roots():
     }, f"Expected roots to be 'A' and 'D', but got {result}"
 
 
+@pytest.mark.usefixtures("setup")
 def test_no_roots():
     fully_connected_graph = {
         "nodes": [
