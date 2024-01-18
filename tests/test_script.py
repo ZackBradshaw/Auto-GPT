@@ -14,4 +14,9 @@ def test_function():
 
 # Run the tests
 if __name__ == "__main__":
+    try:
+        import pytest
+    except ImportError:
+        print('Installing pytest...')
+        os.system('pip install pytest')
     pytest.main([__file__])
