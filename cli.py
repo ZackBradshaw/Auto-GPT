@@ -10,8 +10,8 @@ try:
 except ImportError:
     import os
 
-    os.system("pip3 install click")
-    os.system("pip3 install PyGithub")
+
+
     import click
 
 
