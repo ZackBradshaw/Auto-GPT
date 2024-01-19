@@ -1,0 +1,23 @@
+def modify_requirements_file():
+    with open('requirements.txt', 'a') as file:
+        file.write('pytest\n')
+
+# Unit test for modify_requirements_file
+def test_modify_requirements_file():
+    # Create a temporary requirements.txt file
+    with open('requirements.txt', 'w') as file:
+        file.write('dependency1\ndependency2\n')
+
+    # Call the function to modify the requirements.txt file
+    modify_requirements_file()
+
+    # Read the modified requirements.txt file
+    with open('requirements.txt', 'r') as file:
+        content = file.read()
+
+    # Check if the pytest package is added as a dependency
+    assert 'pytest' in content
+
+    # Check if other dependencies are still present
+    assert 'dependency1' in content
+    assert 'dependency2' in content
