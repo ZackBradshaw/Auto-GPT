@@ -1,0 +1,29 @@
+name: GitHub Actions Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install pytest
+        run: pip install pytest
+
+      # Add more steps as needed for the workflow
+
+      # Example step:
+      # - name: Run tests
+      #   run: pytest
+
+      # Add additional steps as needed
+
+      # Example step:
+      # - name: Deploy to production
+      #   run: deploy.sh
