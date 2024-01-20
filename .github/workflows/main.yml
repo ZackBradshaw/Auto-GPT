@@ -21,6 +21,10 @@ jobs:
           python-version: 3.10
       - name: Install pytest
         run: pip install pytest
+      - name: Run tests
+        run: pytest
+      - name: Install pytest
+        run: pip install pytest
 
       # Add more steps as needed for the workflow
 
