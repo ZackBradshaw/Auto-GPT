@@ -1,0 +1,39 @@
+name: GitHub Actions Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+            - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+      - name: Install pytest
+        run: pip install pytest
+      - name: Run tests
+        run: pytest
+      - name: Install pytest
+        run: pip install pytest
+
+      # Add more steps as needed for the workflow
+
+      # Example step:
+      # - name: Run tests
+      #   run: pytest
+
+      # Add additional steps as needed
+
+      # Example step:
+      # - name: Deploy to production
+      #   run: deploy.sh
