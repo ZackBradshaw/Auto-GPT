@@ -19,6 +19,12 @@ Be part of the revolution! **AutoGPT** stays at the forefront of AI innovation, 
 </p>
 <p align="center">
   <strong>We're hosting a Hackathon!</strong>
+
+To run the tests, use the following command:
+
+```bash
+pytest
+```
   <br>
   Click the banner above for details and registration!
 </p>

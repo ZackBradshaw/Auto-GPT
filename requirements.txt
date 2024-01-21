@@ -1,0 +1,28 @@
+import os
+
+
+def read_file_contents(file_path: str) -> str:
+    with open(file_path, "r") as file:
+        contents = file.read()
+    return contents
+
+
+def append_dependency(contents: str, dependency: str) -> str:
+    lines = contents.split("\n")
+    lines.append(dependency)
+    return "\n".join(lines)
+
+
+def write_file_contents(file_path: str, contents: str) -> None:
+    with open(file_path, "w") as file:
+        file.write(contents)
+
+
+def modify_requirements_file(file_path: str, dependency: str) -> None:
+    contents = read_file_contents(file_path)
+    modified_contents = append_dependency(contents, dependency)
+    write_file_contents(file_path, modified_contents)
+
+
+# Usage example
+modify_requirements_file("requirements.txt", "pytest")
