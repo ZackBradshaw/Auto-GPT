@@ -6,7 +6,7 @@ To ensure efficiency, add the imports to the functions so only what is needed is
 """
 try:
     import click
-    import github
+    from github import Github
 except ImportError:
     import os
 
@@ -110,7 +110,11 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
         install_error = True
     print_access_token_instructions = False
     # Check for the existence of the .github_access_token file
-    if os.path.exists(".github_access_token"):
+    with open(".github_access_token", "r") as file:
+    github_access_token = file.read().strip()
+if not github_access_token:
+    click.echo(click.style("❌ GitHub access token file is empty. Please follow the instructions below to set up your GitHub access token.", fg="red"))
+    return:
         with open(".github_access_token", "r") as file:
             github_access_token = file.read().strip()
             if github_access_token:
@@ -122,7 +126,14 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
                 # Check if the token has the required permissions
                 import requests
 
-                headers = {"Authorization": f"token {github_access_token}"}
+                response = requests.get("https://api.github.com/user")
+if response.status_code != 200:
+    click.echo(click.style("❌ Failed to validate GitHub access token. Please ensure it is correct.", fg="red"))
+    return
+scopes = response.headers.get("X-OAuth-Scopes")
+if "public_repo" not in scopes and "repo" not in scopes:
+    click.echo(click.style("❌ GitHub access token does not have the required permissions. Please ensure it has 'public_repo' or 'repo' scope.", fg="red"))
+    return
                 response = requests.get("https://api.github.com/user", headers=headers)
                 if response.status_code == 200:
                     scopes = response.headers.get("X-OAuth-Scopes")
