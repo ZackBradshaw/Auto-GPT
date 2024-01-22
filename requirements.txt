@@ -1,0 +1,48 @@
+existing_package1
+existing_package2
+...
+pytest
+```
+
+The implementation of the required functions:
+
+```python
+def read_file_contents(file_path: str) -> str:
+    with open(file_path, 'r') as file:
+        return file.read()
+
+
+def modify_file_contents(contents: str) -> str:
+    return contents + '\npytest'
+
+
+def write_file_contents(file_path: str, contents: str) -> None:
+    with open(file_path, 'w') as file:
+        file.write(contents)
+```
+
+Unit tests for the functions:
+
+```python
+import pytest
+from unittest.mock import mock_open, patch
+
+@pytest.mark.parametrize('file_contents', ['existing_package1\nexisting_package2\n'])
+def test_read_file_contents(file_contents):
+    with patch('builtins.open', mock_open(read_data=file_contents)) as mock_file:
+        contents = read_file_contents('requirements.txt')
+        assert contents == file_contents
+
+def test_modify_file_contents():
+    original_contents = 'existing_package1\nexisting_package2\n'
+    modified_contents = modify_file_contents(original_contents)
+    expected_contents = 'existing_package1\nexisting_package2\npytest\n'
+    assert modified_contents == expected_contents
+
+def test_write_file_contents():
+    file_path = 'requirements.txt'
+    contents = 'existing_package1\nexisting_package2\npytest\n'
+    with patch('builtins.open', mock_open()) as mock_file:
+        write_file_contents(file_path, contents)
+        mock_file.assert_called_once_with(file_path, 'w')
+        mock_file().write.assert_called_once_with(contents)
