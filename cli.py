@@ -114,9 +114,16 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
         install_error = True
     print_access_token_instructions = False
     # Check for the existence of the .github_access_token file
+    github_access_token = None
     if os.path.exists(".github_access_token"):
         with open(".github_access_token", "r") as file:
             github_access_token = file.read().strip()
+    else:
+        click.echo(click.style('❌ GitHub access token file not found. Please generate a token and save it in a file named ".github_access_token"', fg='red'))
+        install_error = True
+    if not github_access_token:
+        click.echo(click.style('❌ GitHub access token not available. Please follow the instructions to set up your GitHub access token.', fg='red'))
+        install_error = True
             if github_access_token:
                 click.echo(
                     click.style(
@@ -127,7 +134,14 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
                 import requests
 
                 headers = {"Authorization": f"token {github_access_token}"}
-                response = requests.get("https://api.github.com/user", headers=headers)
+                if github_access_token:
+            response = requests.get("https://api.github.com/user", headers=headers)
+            if response.status_code != 200:
+                install_error = True
+                click.echo(click.style('❌ Failed to validate GitHub access token. Please ensure it is correct.', fg='red'))
+        else:
+            install_error = True
+            click.echo(click.style('❌ GitHub access token not available. Please follow the instructions to set up your GitHub access token.', fg='red'))
                 if response.status_code == 200:
                     scopes = response.headers.get("X-OAuth-Scopes")
                     if "public_repo" in scopes or "repo" in scopes:
