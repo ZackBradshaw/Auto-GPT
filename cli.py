@@ -70,7 +70,7 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
     try:
         # Check if GitHub user name is configured
         user_name = (
-            subprocess.check_output(["git", "config", "user.name"])
+            subprocess.check_output#3#2#1(["git", "config", "user.name"])
             .decode("utf-8")
             .strip()
         )
