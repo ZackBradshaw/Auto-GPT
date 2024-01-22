@@ -37,6 +37,10 @@ def setup():
   d88P   888 888  888 888   888  888 888    888 888           888     
  d8888888888 Y88b 888 Y88b. Y88..88P Y88b  d88P 888           888     
 d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888     
+""",
+            fg="green",
+        )
+    )
                                                                                                                                        
 """,
             fg="green",
@@ -66,7 +70,7 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
     try:
         # Check if GitHub user name is configured
         user_name = (
-            subprocess.check_output(["git", "config", "user.name"])
+            subprocess.check_output#3#2#1(["git", "config", "user.name"])
             .decode("utf-8")
             .strip()
         )
@@ -110,9 +114,16 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
         install_error = True
     print_access_token_instructions = False
     # Check for the existence of the .github_access_token file
+    github_access_token = None
     if os.path.exists(".github_access_token"):
         with open(".github_access_token", "r") as file:
             github_access_token = file.read().strip()
+    else:
+        click.echo(click.style('❌ GitHub access token file not found. Please generate a token and save it in a file named ".github_access_token"', fg='red'))
+        install_error = True
+    if not github_access_token:
+        click.echo(click.style('❌ GitHub access token not available. Please follow the instructions to set up your GitHub access token.', fg='red'))
+        install_error = True
             if github_access_token:
                 click.echo(
                     click.style(
@@ -123,7 +134,14 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
                 import requests
 
                 headers = {"Authorization": f"token {github_access_token}"}
-                response = requests.get("https://api.github.com/user", headers=headers)
+                if github_access_token:
+            response = requests.get("https://api.github.com/user", headers=headers)
+            if response.status_code != 200:
+                install_error = True
+                click.echo(click.style('❌ Failed to validate GitHub access token. Please ensure it is correct.', fg='red'))
+        else:
+            install_error = True
+            click.echo(click.style('❌ GitHub access token not available. Please follow the instructions to set up your GitHub access token.', fg='red'))
                 if response.status_code == 200:
                     scopes = response.headers.get("X-OAuth-Scopes")
                     if "public_repo" in scopes or "repo" in scopes:
