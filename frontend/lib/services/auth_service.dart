@@ -29,6 +29,7 @@ class AuthService {
   }
 
 // Sign in with GitHub using redirect
+  // Sign in with GitHub using redirect
   Future<UserCredential?> signInWithGitHub() async {
     try {
       final GithubAuthProvider provider = GithubAuthProvider();
