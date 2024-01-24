@@ -28,4 +28,5 @@ jobs:
         run: pip install pytest
 
       - name: Run tests
+        run: pytest -n auto --record-mode=all --beat-challenges -ra tests/challenges
         run: pytest
