@@ -115,7 +115,7 @@ def test_smart_and_fast_llms_set_to_gpt4(mock_list_models: Any, config: Config) 
     )
 
     assert config.fast_llm == "gpt-3.5-turbo"
-    assert config.smart_llm == "gpt-3.5-turbo"
+    assert config.smart_llm == "gpt-3.5-turbo" and config.fast_llm == "gpt-3.5-turbo"
 
     # Reset config
     config.fast_llm = fast_llm
@@ -125,7 +125,9 @@ def test_smart_and_fast_llms_set_to_gpt4(mock_list_models: Any, config: Config) 
 def test_missing_azure_config(workspace: FileWorkspace) -> None:
     config_file = workspace.get_path("azure_config.yaml")
     with pytest.raises(FileNotFoundError):
-        ConfigBuilder.load_azure_config(config_file)
+        from autogpts.autogpt.tests.utils import get_workspace_file_path
+
+    get_workspace_file_path(workspace, 'azure_config.yaml')
 
     config_file.write_text("")
     azure_config = ConfigBuilder.load_azure_config(config_file)

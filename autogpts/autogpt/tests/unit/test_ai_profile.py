@@ -27,7 +27,7 @@ api_budget: 0.0
     assert len(ai_profile.ai_goals) == 4
     assert ai_profile.ai_goals[0] == "Goal 1: Make a sandwich"
     assert ai_profile.ai_goals[1] == "Goal 2, Eat the sandwich"
-    assert ai_profile.ai_goals[2] == "Goal 3 - Go to sleep"
+    assert ai_profile.ai_goals[2] == "Goal 3, Go to sleep"
     assert ai_profile.ai_goals[3] == "Goal 4: Wake up"
 
     ai_settings_file.write_text("")
@@ -36,7 +36,7 @@ api_budget: 0.0
     yaml_content2 = """ai_goals:
 - 'Goal 1: Make a sandwich'
 - Goal 2, Eat the sandwich
-- Goal 3 - Go to sleep
+- Goal 3, Go to sleep
 - 'Goal 4: Wake up'
 ai_name: McFamished
 ai_role: A hungry AI
