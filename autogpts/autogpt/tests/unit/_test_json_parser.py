@@ -1,4 +1,4 @@
-import pytest
+import pytest, skip_in_ci, get_workspace_file_path
 
 from autogpt.json_utils.json_fix_llm import fix_and_parse_json
 
@@ -23,7 +23,7 @@ def test_invalid_json_minor():
 def test_invalid_json_major_with_gpt():
     """Test that an invalid JSON string raises an error when try_to_fix_with_gpt is False."""
     json_str = 'BEGIN: "name": "John" - "age": 30 - "city": "New York" :END'
-    assert fix_and_parse_json(json_str, try_to_fix_with_gpt=True) == {
+    assert fix_and_parse_json(json_str, try_to_fix_with_gpt=False) == {
         "name": "John",
         "age": 30,
         "city": "New York",
