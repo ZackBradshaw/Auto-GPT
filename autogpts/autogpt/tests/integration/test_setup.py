@@ -7,12 +7,13 @@ from autogpt.app.setup import (
     interactively_revise_ai_settings,
 )
 from autogpt.config import AIDirectives, Config
+from autogpts.autogpt.tests.utils import skip_in_ci, get_workspace_file_path
 from autogpt.config.ai_profile import AIProfile
 
 
 @pytest.mark.asyncio
-async def test_apply_overrides_to_ai_settings():
-    ai_profile = AIProfile(ai_name="Test AI", ai_role="Test Role")
+async def test_apply_overrides_to_ai_settings(config: Config):
+    ai_profile = AIProfile(ai_name="Test AI", ai_role="Test Role", image_size=(100, 100))
     directives = AIDirectives(
         resources=["Resource1"],
         constraints=["Constraint1"],
@@ -38,7 +39,7 @@ async def test_apply_overrides_to_ai_settings():
 
 
 @pytest.mark.asyncio
-async def test_interactively_revise_ai_settings(config: Config):
+async def test_interactively_revise_ai_settings(config: Config, monkeypatch):
     ai_profile = AIProfile(ai_name="Test AI", ai_role="Test Role")
     directives = AIDirectives(
         resources=["Resource1"],
