@@ -47,6 +47,9 @@ def test_huggingface(agent: Agent, workspace, image_size, image_model):
     )
 
 
+from autogpts.autogpt.tests.utils import skip_in_ci
+
+
 @pytest.mark.xfail(reason="SD WebUI call does not work.")
 def test_sd_webui(agent: Agent, workspace, image_size):
     """Test SD WebUI image generation."""
