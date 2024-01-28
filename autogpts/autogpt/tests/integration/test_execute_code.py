@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 import autogpt.commands.execute_code as sut  # system under testing
+from autogpts.autogpt.tests.utils import skip_in_ci, get_workspace_file_path
 from autogpt.agents.agent import Agent
 from autogpt.agents.utils.exceptions import (
     InvalidArgumentError,
