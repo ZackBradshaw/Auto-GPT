@@ -163,7 +163,7 @@ def test_get_command(example_command: Command):
 
 
 def test_get_nonexistent_command():
-    """Test that attempting to get a nonexistent command raises a KeyError."""
+    """Test that attempting to get a nonexistent command returns None."""
     registry = CommandRegistry()
 
     assert registry.get_command("nonexistent_command") is None
@@ -188,6 +188,9 @@ def test_call_command(agent: Agent):
 
 def test_call_nonexistent_command(agent: Agent):
     """Test that attempting to call a nonexistent command raises a KeyError."""
+    registry = CommandRegistry()
+
+    assert registry.call("nonexistent_command", arg1=1, arg2="test", agent=agent) is None
     registry = CommandRegistry()
 
     with pytest.raises(KeyError):
