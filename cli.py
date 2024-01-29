@@ -159,6 +159,11 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
                 )
                 print_access_token_instructions = True
     else:
+        click.echo(click.style(
+            "❌ GitHub access token file is empty. Please follow the instructions below to set up your GitHub access token.",
+            fg="red",
+        )
+        )
         # Create the .github_access_token file if it doesn't exist
         with open(".github_access_token", "w") as file:
             file.write("")
@@ -622,7 +627,12 @@ def enter(agent_name, branch):
             )
         )
 
-        return
+        click.echo(
+        click.style(
+            "😞 The directory for the agent does not exist in the autogpts directory. Run './run agent create <agent_name>' to create the agent.",
+            fg="red",
+        )
+    )
     else:
         # Check if the agent has already entered the arena
         try:
@@ -634,7 +644,7 @@ def enter(agent_name, branch):
                     "--quiet",
                     f"arena_submission_{agent_name}",
                 ]
-            )
+        )
         except subprocess.CalledProcessError:
             pass
         else:
@@ -642,7 +652,7 @@ def enter(agent_name, branch):
                 click.style(
                     f"⚠️  The agent '{agent_name}' has already entered the arena. To update your submission, follow these steps:",
                     fg="yellow",
-                )
+    )
             )
             click.echo(
                 click.style(
@@ -668,7 +678,13 @@ def enter(agent_name, branch):
                     fg="yellow",
                 )
             )
-            return
+            click.echo(
+            click.style(
+                f"❌ There are staged changes. Please commit or stash them and run the command again.",
+                fg="red",
+            )
+        )
+        return
 
     # Check if there are staged changes
     staged_changes = [
