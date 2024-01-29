@@ -5,8 +5,9 @@ If you want to contribute, please use only libraries that come as part of Python
 To ensure efficiency, add the imports to the functions so only what is needed is imported.
 """
 try:
-    import click
     import github
+import click
+import github
 except ImportError:
     import os
 
