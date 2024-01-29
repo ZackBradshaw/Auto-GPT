@@ -626,13 +626,7 @@ def enter(agent_name, branch):
                 fg="yellow",
             )
         )
-
-        click.echo(
-        click.style(
-            "😞 The directory for the agent does not exist in the autogpts directory. Run './run agent create <agent_name>' to create the agent.",
-            fg="red",
-        )
-    )
+        return
     else:
         # Check if the agent has already entered the arena
         try:
@@ -748,7 +742,6 @@ def enter(agent_name, branch):
         # If --branch was passed, add branch_to_benchmark to the JSON file
         if branch:
             data["branch_to_benchmark"] = branch
-
         # Create agent directory if it does not exist
         subprocess.check_call(["mkdir", "-p", "arena"])
 
