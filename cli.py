@@ -64,6 +64,44 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
         install_error = True
 
     try:
+    # Check if GitHub user name is configured
+    user_name = (
+        subprocess.check_output(["git", "config", "user.name"])
+        .decode("utf-8")
+        .strip()
+    )
+    user_email = (
+        subprocess.check_output(["git", "config", "user.email"])
+        .decode("utf-8")
+        .strip()
+    )
+
+    if user_name and user_email:
+        click.echo(
+            click.style(
+                f"✅ GitHub account is configured with username: {user_name} and email: {user_email}",
+                fg="green",
+            )
+        )
+    # Check if GitHub user name is configured
+    user_name = (
+        subprocess.check_output(["git", "config", "user.name"])
+        .decode("utf-8")
+        .strip()
+    )
+    user_email = (
+        subprocess.check_output(["git", "config", "user.email"])
+        .decode("utf-8")
+        .strip()
+    )
+
+    if user_name and user_email:
+        click.echo(
+            click.style(
+                f"✅ GitHub account is configured with username: {user_name} and email: {user_email}",
+                fg="green",
+            )
+        )
         # Check if GitHub user name is configured
         user_name = (
             subprocess.check_output(["git", "config", "user.name"])
@@ -797,7 +835,12 @@ Hey there amazing builders! We're thrilled to have you join this exciting journe
                 body=pr_message,
                 head=head,
                 base=branch_to_use,
-            )
+        except subprocess.CalledProcessError:
+        # If the GitHub account is not configured, print instructions on how to set it up
+        click.echo(click.style("❌ GitHub account is not configured.", fg="red"))
+        click.echo(click.style("To configure your GitHub account, use the following commands:", fg="red"))
+        click.echo(click.style('  git config --global user.name "Your GitHub Username"', fg="red"))
+        click.echo(click.style('  git config --global user.email "Your GitHub Email"', fg="red"))
             click.echo(
                 click.style(
                     f"🚀 {agent_name} has entered the arena! Please edit your PR description at the following URL: {pr.html_url}",
